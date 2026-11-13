@@ -1,1 +1,40 @@
 
+name: Verify Clement-Sutton University Repository
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-repository:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify repository
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "State of Loc Nation GPBC"
+          echo "Clement-Sutton University"
+          echo "Repository verification started."
+
+          test -d .git
+          git status --short
+
+          if [ -d clement-sutton-university ]; then
+            echo "University directory found."
+          else
+            echo "University directory not yet initialized."
+          fi
+
+          echo "Repository verification completed."
+

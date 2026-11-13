@@ -1,3 +1,4 @@
+
 name: Setup Clement-Sutton University
 
 on:
@@ -9,45 +10,61 @@ permissions:
 jobs:
   setup-university:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout existing repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           persist-credentials: true
 
-      - name: Create missing university structure
+      - name: Create university directories and documents
         shell: bash
         run: |
           set -euo pipefail
+
           ROOT="clement-sutton-university"
 
-          mkdir -p \
-            "$ROOT/governance" \
-            "$ROOT/admissions" \
-            "$ROOT/early-childhood-k12" \
-            "$ROOT/colleges-and-degrees" \
-            "$ROOT/seven-pillars" \
-            "$ROOT/research-laboratories" \
-            "$ROOT/black-history-museum" \
-            "$ROOT/international-exchange" \
-            "$ROOT/academic-publishing" \
-            "$ROOT/scholarships" \
-            "$ROOT/career-and-business-network" \
-            "$ROOT/funding/LND-treasury" \
-            "$ROOT/funding/capital-budget" \
-            "$ROOT/funding/financial-reporting" \
-            "$ROOT/technology" \
-            "$ROOT/aws-deployment"
+          DIRS=(
+            governance
+            admissions
+            early-childhood-k12
+            colleges-and-degrees
+            seven-pillars
+            research-laboratories
+            black-history-museum
+            international-exchange
+            academic-publishing
+            scholarships
+            career-and-business-network
+            funding/LND-treasury
+            funding/capital-budget
+            funding/financial-reporting
+            technology
+            aws-deployment
+          )
 
-          # Write the complete top-level README before adding placeholders.
+          for dir in "${DIRS[@]}"; do
+            mkdir -p "$ROOT/$dir"
+            if [ ! -f "$ROOT/$dir/README.md" ]; then
+              printf '# %s\n\nFramework documentation.\n' \
+                "$dir" > "$ROOT/$dir/README.md"
+            fi
+          done
+
           if [ ! -f "$ROOT/README.md" ]; then
             cat > "$ROOT/README.md" <<'EOF'
           # Clement-Sutton University
 
-          **African, Caribbean & Indigenous Diaspora University**
+          African, Caribbean & Indigenous Diaspora University
+
+          ## Parent Institution
+          State of Loc Nation Global Public Benefit Corporation
+          (SOLN GPBC)
 
           ## Institutional Framework
-          Clement-Sutton University is an educational development initiative within the State of Loc Nation Global Public Benefit Corporation (SOLN GPBC) framework, building upon SOLN's charter, research, publications, governance work, and the After Revelations curriculum.
+          Clement-Sutton University integrates education,
+          research, cultural preservation, entrepreneurship,
+          academic publishing, and international collaboration.
 
           ## Seven Pillars
           1. Education
@@ -58,69 +75,74 @@ jobs:
           6. Policy and Law
           7. Spirituality and Wellness
 
-          ## Institutional Development
+          ## Implementation
           - Early childhood through doctoral education
           - Eight research laboratories
-          - Black History Museum and cultural archives
-          - International exchange and scholarships
-          - Academic publishing and research archives
-          - Black-owned business and career partnerships
-          - LND treasury, capital budgets and financial reporting
-          - AWS and digital learning infrastructure
+          - Black History Museum
+          - African, Caribbean and Indigenous exchange
+          - Scholarships and employment partnerships
+          - LND treasury and financial reporting
+          - Academic archives and publications
+          - AWS digital infrastructure
 
           ## Preservation
-          This module supplements the existing After Revelations 12-week course. Existing course content, university files, and Git history remain unchanged.
-
-          ## Institutional Records
-          Governance actions, academic authorizations, operational milestones, and financial commitments are recorded in their respective institutional records.
+          Existing After Revelations course content and
+          institutional documents remain preserved.
           EOF
           fi
 
           if [ ! -f "$ROOT/PRD.md" ]; then
             cat > "$ROOT/PRD.md" <<'EOF'
-          # Clement-Sutton University — Product Requirements Document
+          # Clement-Sutton University PRD
 
           ## Objective
-          Implement the complete university ecosystem while preserving the existing After Revelations 12-week course.
+          Integrate the academic, governance, research,
+          cultural, financial and technology frameworks.
 
-          ## Academic Platform
-          Admissions, enrollment, course catalog, learning management, student records, faculty dashboards, curriculum and graduation workflows.
+          ## Requirements
+          - Admissions and student records
+          - Curriculum and degree pathways
+          - Seven pillars and eight research laboratories
+          - Academic publishing and archives
+          - Museum and cultural heritage programs
+          - International exchange
+          - Scholarships and career partnerships
+          - LND authorization and settlement ledgers
+          - Capital budgeting and financial reporting
+          - AWS infrastructure and secure access
 
-          ## Research and Publishing
-          Eight research laboratories; ORCID, Zotero, Zenodo and DOI workflows; journal publishing, peer review, and archival records.
+          ## Preservation
+          Do not overwrite or relocate existing course,
+          charter, operational or financial documents.
 
-          ## Culture and International Exchange
-          Black History Museum, Indigenous and Afro-diasporic heritage archives, student exchanges and ancestral recognition.
-
-          ## Employment and Financial Systems
-          Black-owned business partnerships, scholarships, internships, LND allocation ledger, settlement records, capital budgets and financial reporting.
-
-          ## Technology
-          GitHub source control, AWS infrastructure, identity and role-based access, database backups, testing and deployment.
-
-          ## Preservation Rule
-          Do not delete, rename, relocate or overwrite existing repository files. This workflow creates missing documentation only.
+          ## Verification
+          Confirm all required folders and documents exist.
           EOF
           fi
 
-          # Git does not track empty directories; add documentation only where absent.
-          find "$ROOT" -type d -print0 | while IFS= read -r -d '' dir; do
-            if [ ! -f "$dir/README.md" ]; then
-              printf '# %s\n\nClement-Sutton University division documentation.\n' \
-                "$(basename "$dir")" > "$dir/README.md"
-            fi
-          done
-
-      - name: Commit newly created files
+      - name: Verify framework
         shell: bash
         run: |
           set -euo pipefail
+          test -f clement-sutton-university/README.md
+          test -f clement-sutton-university/PRD.md
+          echo "University framework verification passed."
+
+      - name: Commit framework
+        shell: bash
+        run: |
+          set -euo pipefail
+
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add clement-sutton-university/
+
           if git diff --cached --quiet; then
-            echo "All framework files already exist; no changes needed."
+            echo "No changes required."
             exit 0
           fi
-          git commit -m "Add missing Clement-Sutton University framework files"
-          git push
+
+          git commit -m "Initialize Clement-Sutton University"
+          git push origin HEAD:${{ github.ref_name }}

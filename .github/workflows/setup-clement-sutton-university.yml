@@ -1,28 +1,3 @@
-After-Revaltions-12-Week-Course-/
-│
-├── existing-12-week-course/       # Preserve existing content
-│
-└── clement-sutton-university/
-    ├── README.md
-    ├── PRD.md
-    ├── governance/
-    ├── admissions/
-    ├── early-childhood-k12/
-    ├── colleges-and-degrees/
-    ├── seven-pillars/
-    ├── research-laboratories/
-    ├── black-history-museum/
-    ├── international-exchange/
-    ├── academic-publishing/
-    ├── scholarships/
-    ├── career-and-business-network/
-    ├── funding/
-    │   ├── LND-treasury/
-    │   ├── capital-budget/
-    │   └── financial-reporting/
-    ├── technology/
-    └── aws-deployment/
-    
 name: Setup Clement-Sutton University
 
 on:
@@ -34,16 +9,16 @@ permissions:
 jobs:
   setup-university:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout existing repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      - name: Create university framework
+      - name: Create missing university structure
         shell: bash
         run: |
           set -euo pipefail
-
           ROOT="clement-sutton-university"
 
           mkdir -p \
@@ -64,30 +39,15 @@ jobs:
             "$ROOT/technology" \
             "$ROOT/aws-deployment"
 
-          # Git does not track empty folders.
-          # Add README files without overwriting existing files.
-          find "$ROOT" -type d | while read -r dir; do
-            if [ ! -f "$dir/README.md" ]; then
-              printf '# %s\n\nDevelopment documentation.\n' \
-                "$(basename "$dir")" > "$dir/README.md"
-            fi
-          done
-
+          # Write the complete top-level README before adding placeholders.
           if [ ! -f "$ROOT/README.md" ]; then
             cat > "$ROOT/README.md" <<'EOF'
           # Clement-Sutton University
 
-          African, Caribbean & Indigenous Diaspora University
+          **African, Caribbean & Indigenous Diaspora University**
 
-          ## Parent Framework
-          State of Loc Nation Global Public Benefit Corporation
-          (SOLN GPBC)
-
-          ## Mission
-          Develop an integrated educational ecosystem from
-          early childhood through doctoral education, research,
-          entrepreneurship, cultural preservation, and
-          international collaboration.
+          ## Institutional Framework
+          Clement-Sutton University is an educational development initiative within the State of Loc Nation Global Public Benefit Corporation (SOLN GPBC) framework, building upon SOLN's charter, research, publications, governance work, and the After Revelations curriculum.
 
           ## Seven Pillars
           1. Education
@@ -98,107 +58,69 @@ jobs:
           6. Policy and Law
           7. Spirituality and Wellness
 
-          ## Major Initiatives
-          - Early childhood and K-12 education
-          - Colleges and degree program development
+          ## Institutional Development
+          - Early childhood through doctoral education
           - Eight research laboratories
           - Black History Museum and cultural archives
-          - African and Caribbean student exchange
-          - Scholarships and workforce partnerships
+          - International exchange and scholarships
           - Academic publishing and research archives
-          - LND funding and treasury planning
-          - Digital learning and AWS infrastructure
+          - Black-owned business and career partnerships
+          - LND treasury, capital budgets and financial reporting
+          - AWS and digital learning infrastructure
 
           ## Preservation
-          This university framework supplements the existing
-          After Revelations 12-week course. Existing course
-          files and history are preserved.
+          This module supplements the existing After Revelations 12-week course. Existing course content, university files, and Git history remain unchanged.
 
-          ## Status
-          Institutional development framework.
-          Program approvals and operational milestones are
-          tracked separately.
+          ## Institutional Records
+          Governance actions, academic authorizations, operational milestones, and financial commitments are recorded in their respective institutional records.
           EOF
           fi
 
           if [ ! -f "$ROOT/PRD.md" ]; then
             cat > "$ROOT/PRD.md" <<'EOF'
-          # Clement-Sutton University
-          ## Product Requirements Document
+          # Clement-Sutton University — Product Requirements Document
 
-          ### 1. Purpose
-          Build a unified educational, research, cultural,
-          and economic development platform.
+          ## Objective
+          Implement the complete university ecosystem while preserving the existing After Revelations 12-week course.
 
-          ### 2. Academic Platform
-          - Student registration and admissions
-          - Course catalog and curriculum management
-          - Faculty and administrator dashboards
-          - Learning management system
-          - Research and publication management
-          - Student records and graduation tracking
+          ## Academic Platform
+          Admissions, enrollment, course catalog, learning management, student records, faculty dashboards, curriculum and graduation workflows.
 
-          ### 3. Research Infrastructure
-          - Eight planned research laboratories
-          - ORCID integration
-          - DOI and repository workflows
-          - Zotero and Zenodo research archives
-          - Academic journals and peer review
+          ## Research and Publishing
+          Eight research laboratories; ORCID, Zotero, Zenodo and DOI workflows; journal publishing, peer review, and archival records.
 
-          ### 4. Financial Infrastructure
-          - LND funding allocation ledger
-          - USD settlement and liquidity tracking
-          - Capital and operating budgets
-          - Scholarship management
-          - Financial reporting and audit trails
+          ## Culture and International Exchange
+          Black History Museum, Indigenous and Afro-diasporic heritage archives, student exchanges and ancestral recognition.
 
-          ### 5. Cultural Infrastructure
-          - Black History Museum
-          - Afro-diasporic and Indigenous archives
-          - Cultural exchange and ancestral recognition
+          ## Employment and Financial Systems
+          Black-owned business partnerships, scholarships, internships, LND allocation ledger, settlement records, capital budgets and financial reporting.
 
-          ### 6. Employment Infrastructure
-          - Black-owned business partnerships
-          - Internships and apprenticeships
-          - Graduate employment pathways
+          ## Technology
+          GitHub source control, AWS infrastructure, identity and role-based access, database backups, testing and deployment.
 
-          ### 7. Technology
-          - GitHub source control
-          - AWS deployment
-          - Authentication and role-based access
-          - Secure databases and backups
-          - Automated testing and deployment
-
-          ### 8. Implementation
-          Phase 1: Foundation and architecture
-          Phase 2: Digital academic platform
-          Phase 3: Research and publishing systems
-          Phase 4: Campus and international expansion
-          Phase 5: Full institutional ecosystem
-
-          ### 9. Preservation Rule
-          Do not overwrite, remove, or restructure the
-          existing 12-week course without separate approval.
+          ## Preservation Rule
+          Do not delete, rename, relocate or overwrite existing repository files. This workflow creates missing documentation only.
           EOF
           fi
 
-      - name: Commit new framework
+          # Git does not track empty directories; add documentation only where absent.
+          find "$ROOT" -type d -print0 | while IFS= read -r -d '' dir; do
+            if [ ! -f "$dir/README.md" ]; then
+              printf '# %s\n\nClement-Sutton University division documentation.\n' \
+                "$(basename "$dir")" > "$dir/README.md"
+            fi
+          done
+
+      - name: Commit newly created files
         shell: bash
         run: |
           set -euo pipefail
-
           git config user.name "github-actions[bot]"
-          git config user.email \
-            "41898282+github-actions[bot]@users.noreply.github.com"
-
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add clement-sutton-university/
-
           if git diff --cached --quiet; then
-            echo "University framework already exists."
+            echo "All framework files already exist; no changes needed."
             exit 0
           fi
-
-          git commit -m \
-            "Add Clement-Sutton University framework"
-
+          git commit -m "Add missing Clement-Sutton University framework files"
           git push

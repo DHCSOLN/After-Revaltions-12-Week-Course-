@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "document_title": "Clement-Sutton University — Founding Charter and Articles of Institutional Governance",
+  "source_filename": "Clement-Sutton_University_Founding_Charter_Full_Revised.docx",
+  "source_sha256": "79dfa1458d9c21171b5b114262bc18c66155e23548fcad6ef07927d4433626e7",
+  "transcription_method": "python-docx paragraph.text in document order; each paragraph stored verbatim without editorial rewriting",
+  "text_join_rule": "Join paragraphs with a single LF (\\n) in index order; paragraph boundaries retained in blocks",
+  "paragraph_count": 160,
+  "article_count": 14,
+  "articles": [
+    {
+      "heading": "ARTICLE I — NAME, IDENTITY, AND PURPOSE",
+      "paragraph_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "heading": "ARTICLE II — GOVERNANCE AND FIDUCIARY OVERSIGHT",
+      "paragraph_indices": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "heading": "ARTICLE III — SEVEN ACADEMIC PILLARS",
+      "paragraph_indices": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "heading": "ARTICLE IV — SCHOOLS, CREDENTIALS, AND ACADEMIC QUALITY",
+      "paragraph_indices": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ]
+    },
+    {
+      "heading": "ARTICLE V — RESEARCH LABORATORIES AND INNOVATION",
+      "paragraph_indices": [
+        34,
+        35,
+        36,
+        37,
+        38
+      ]
+    },
+    {
+      "heading": "ARTICLE VI — BLACK HISTORY MUSEUM AND CULTURAL HERITAGE",
+      "paragraph_indices": [
+        39,
+        40,
+        41,
+        42,
+        43
+      ]
+    },
+    {
+      "heading": "ARTICLE VII — INTERNATIONAL EXCHANGE AND WORKFORCE",
+      "paragraph_indices": [
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
+    },
+    {
+      "heading": "ARTICLE VIII — SCHOLARLY IDENTIFIERS AND PUBLISHING",
+      "paragraph_indices": [
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ]
